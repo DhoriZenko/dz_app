@@ -8,8 +8,9 @@ fi
 
 
 #this script installs all apps that dhorizenko will need on cloud server
-echo -e "\e[32mThis script will install all core aplications for Dhorizenko. the apps include Webmin, KasmWorkspace, CasaOS, AMP GAME PANEL and cloudflare all theses apps do not require web config and will continue through setup as normal."
-for i in $(seq 20 -1 1); do echo -ne "\r\e[32mScript starting in...$i "; sleep 1; done; echo -e "\nscript starting..\e[0m"
+echo -e "\e[32mThis script will install all core aplications for Dhorizenko. the apps include Webmin, AMP GAME PANEL amd UFW rules"
+for i in $(seq 5 -1 1); do echo -ne "\r\e[32mScript starting in...$i "; sleep 1; done; echo -e "\nscript starting..\e[0m"
+echo "running dhori_app_config V2.1"
 apt update
 apt -y upgrade
 cd
@@ -50,44 +51,73 @@ case "$choice" in
     ;;
 esac
 
-#CasaOS Web GUI
-read -r -p "Do you want to install CasaOS (yes/no): " choice
+#UFW 
+read -r -p "Would you like to setup UFW rules? (reccomended on first startup)" choice
 
 case "$choice" in
   yes|y|Yes|Y)
-	curl -fsSL https://get.casaos.io | sudo bash
-	echo -e "\e[31mMake the port 88!!...automaticly on port 80 or 81 if pt was used\e[0m"
-	curl -fsSL https://get.casaos.io/port-change | sudo bash
-	echo -e "\e[32mCasaOS Installed on"
-	echo "WebApp Address: $(curl -s ifconfig.me):88\e[0m"
+  ufw enable
+  ufw allow 20
+  ufw allow 22
+  ufw allow 80
+  ufw allow 81
+  ufw allow 88
+  ufw allow 443
+  ufw allow 1107
+  ufw allow 2020
+  ufw allow 2223
+  ufw allow 2224
+  ufw allow 2225
+  ufw allow 2226
+  ufw allow 2227
+  ufw allow 2228
+  ufw allow 2229
+  ufw allow 2230
+  ufw allow 2231
+  ufw allow 2232
+  ufw allow 2233/tcp
+  ufw allow 2234/tcp
+  ufw allow 2235/tcp
+  ufw allow 2236/tcp
+  ufw allow 2237/tcp
+  ufw allow 2780
+  ufw allow 4425
+  ufw allow 5678
+  ufw allow 5970
+  ufw allow 7682
+  ufw allow 8080
+  ufw allow 8100
+  ufw allow 10000
+  ufw allow 10001
+  ufw allow 12820
+  ufw allow 19132
+  ufw allow 19133
+  ufw allow 19134
+  ufw allow 19135
+  ufw allow 19136
+  ufw allow 19137
+  ufw allow 19139
+  ufw allow 19144
+  ufw allow 19185
+  ufw allow 24454
+  ufw allow 25565
+  ufw allow 25566
+  ufw allow 25567
+  ufw allow 25568
+  ufw allow 25569
+  ufw allow 25570
+  ufw allow 25571
+  ufw allow 25572
+  ufw allow 25573
+  ufw allow 25574
+  ufw allow 25575
+  ufw allow 25576
+	for i in $(seq 5 -1 1); do echo -ne "\r\e[32mRebooting in$i "; sleep 1; done; echo -e "\e[0m"
     ;;
   no|n|No|N)
-    echo "Skipping install"
+    echo "Skipping UFW setup"
     ;;
   *)
     echo "Invalid input. Please enter yes or no."
     ;;
 esac
-
-# KASM
-read -r -p "Do you want to install KASM KasmWorkspace(Recommended) (yes/no): " choice
-
-case "$choice" in
-  yes|y|Yes|Y)
-	cd /tmp
-	curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.16.1.98d6fa.tar.gz
-	tar -xf kasm_release_1.16.1.98d6fa.tar.gz
-	sudo bash kasm_release/install.sh -L 7000
-	echo -e "IP: $(curl -s ifconfig.me):7000\e[0m"
-    ;;
-  no|n|No|N)
-    echo "Skipping install"
-    ;;
-  *)
-    echo "Invalid input. Please enter yes or no."
-    ;;
-esac
-
-echo "updating repo"
-apt update
-for i in $(seq 20 -1 1); do echo -ne "\r\e[32mSleeping for...$i "; sleep 1; done; echo -e "\e[0m"
