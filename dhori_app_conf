@@ -112,7 +112,7 @@ case "$choice" in
   ufw allow 25574
   ufw allow 25575
   ufw allow 25576
-	for i in $(seq 5 -1 1); do echo -ne "\r\e[32mRebooting in$i "; sleep 1; done; echo -e "\e[0m"
+	for i in $(seq 5 -1 1); do echo -ne "\r\e[32mRebooting in $i "; sleep 1; done; echo -e "\e[0m"
     ;;
   no|n|No|N)
     echo "Skipping UFW setup"
